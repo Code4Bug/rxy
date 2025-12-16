@@ -420,6 +420,15 @@ export const useQuestStore = defineStore('quest', () => {
         getQuestDetails,
         updateAllQuestProgress,
         initializeQuests,
-        resetDailyQuests
+        resetDailyQuests,
+        
+        // 重置方法
+        $reset: () => {
+            activeQuests.value = []
+            completedQuests.value = []
+            availableQuests.value = []
+            dailyResetTime.value = 0
+            questProgress.value = {}
+        }
     }
 })

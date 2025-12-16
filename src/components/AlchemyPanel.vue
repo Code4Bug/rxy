@@ -1,56 +1,56 @@
 <template>
   <div class="space-y-4">
     <!-- 炼丹等级信息 -->
-    <div class="bg-gray-800 border border-gray-600 rounded p-4">
-      <h3 class="text-lg font-bold text-purple-400 mb-3">炼丹修为</h3>
+    <div class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">炼丹修为</h3>
       
       <div class="space-y-2">
         <div class="flex justify-between">
-          <span class="text-gray-300">炼丹等级：</span>
-          <span class="text-white font-medium">{{ alchemyStore.alchemyLevel }}</span>
+          <span class="pixel-text-subtitle">炼丹等级：</span>
+          <span class="pixel-text-value">{{ alchemyStore.alchemyLevel }}</span>
         </div>
         
         <div class="flex justify-between">
-          <span class="text-gray-300">经验：</span>
-          <span class="text-green-400">{{ alchemyStore.alchemyExp }} / {{ alchemyStore.alchemyExpToNext }}</span>
+          <span class="pixel-text-subtitle">经验：</span>
+          <span class="pixel-text-value">{{ alchemyStore.alchemyExp }} / {{ alchemyStore.alchemyExpToNext }}</span>
         </div>
         
-        <div class="w-full bg-gray-700 rounded-full h-2">
+        <div class="w-full bg-black border-2 border-white h-4">
           <div 
-            class="bg-purple-600 h-2 rounded-full transition-all duration-300"
+            class="bg-white h-full"
             :style="{ width: `${(alchemyStore.alchemyExp / alchemyStore.alchemyExpToNext) * 100}%` }"
           ></div>
         </div>
         
-        <div class="text-sm text-gray-400">
+        <div class="pixel-text-label">
           成功率加成：{{ Math.floor(alchemyStore.successRate * 100) }}%
         </div>
       </div>
     </div>
     
     <!-- 炼制状态 -->
-    <div v-if="alchemyStore.isRefining" class="bg-gray-800 border border-yellow-600 rounded p-4">
-      <h3 class="text-lg font-bold text-yellow-400 mb-3">正在炼制</h3>
+    <div v-if="alchemyStore.isRefining" class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">正在炼制</h3>
       
       <div class="space-y-3">
-        <div class="text-white">
+        <div class="pixel-text-value">
           炼制中：{{ getCurrentRecipe()?.name }}
         </div>
         
-        <div class="w-full bg-gray-700 rounded-full h-3">
+        <div class="w-full bg-black border-2 border-white h-4">
           <div 
-            class="bg-yellow-600 h-3 rounded-full transition-all duration-1000"
+            class="bg-white h-full"
             :style="{ width: `${alchemyStore.refinementProgress}%` }"
           ></div>
         </div>
         
-        <div class="text-center text-sm text-gray-300">
+        <div class="text-center pixel-text-subtitle">
           进度：{{ alchemyStore.refinementProgress }}%
         </div>
         
         <button
           @click="cancelRefinement"
-          class="w-full px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
+          class="w-full pixel-button"
         >
           中断炼制
         </button>
@@ -58,10 +58,10 @@
     </div>
     
     <!-- 可用配方 -->
-    <div v-if="!alchemyStore.isRefining" class="bg-gray-800 border border-gray-600 rounded p-4">
-      <h3 class="text-lg font-bold text-blue-400 mb-3">丹方列表</h3>
+    <div v-if="!alchemyStore.isRefining" class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">丹方列表</h3>
       
-      <div v-if="alchemyStore.availableRecipes.length === 0" class="text-gray-400 text-center py-4">
+      <div v-if="alchemyStore.availableRecipes.length === 0" class="pixel-text-label text-center py-4">
         暂无可用配方
       </div>
       
@@ -69,29 +69,29 @@
         <div
           v-for="recipe in alchemyStore.availableRecipes"
           :key="recipe.id"
-          class="border border-gray-600 rounded p-3"
+          class="pixel-container p-2"
         >
           <div class="flex items-center justify-between mb-2">
-            <h4 class="text-white font-medium">{{ recipe.name }}</h4>
-            <span :class="getGradeColor(recipe.grade)" class="text-sm px-2 py-1 rounded">
+            <h4 class="pixel-text-value">{{ recipe.name }}</h4>
+            <span class="pixel-text-label px-2 py-1 border border-white">
               {{ recipe.grade }}品丹药
             </span>
           </div>
           
-          <div class="text-sm text-gray-400 mb-3">
+          <div class="pixel-text-subtitle mb-3">
             {{ recipe.description }}
           </div>
           
           <!-- 材料需求 -->
           <div class="mb-3">
-            <div class="text-sm text-gray-300 mb-1">所需材料：</div>
+            <div class="pixel-text-subtitle mb-1">所需材料：</div>
             <div class="grid grid-cols-2 gap-2">
               <div
                 v-for="material in recipe.materials"
                 :key="material.itemId"
                 :class="[
-                  'text-xs p-2 rounded',
-                  hasEnoughMaterial(material) ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'
+                  'pixel-text-label p-2 border-2',
+                  hasEnoughMaterial(material) ? 'border-white' : 'border-white opacity-50'
                 ]"
               >
                 {{ material.name }} x{{ material.count }}
@@ -103,7 +103,7 @@
           </div>
           
           <!-- 炼制信息 -->
-          <div class="flex items-center justify-between text-xs text-gray-400 mb-3">
+          <div class="flex items-center justify-between pixel-text-label mb-3">
             <span>成功率：{{ Math.floor(getRecipeSuccessRate(recipe) * 100) }}%</span>
             <span>耗时：{{ Math.floor(recipe.refinementTime / 1000) }}秒</span>
           </div>
@@ -112,10 +112,8 @@
             @click="startRefinement(recipe.id)"
             :disabled="!canRefineRecipe(recipe)"
             :class="[
-              'w-full px-3 py-2 text-sm rounded transition-colors',
-              canRefineRecipe(recipe)
-                ? 'bg-purple-600 hover:bg-purple-700 text-white'
-                : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+              'w-full pixel-button',
+              !canRefineRecipe(recipe) && 'opacity-50 cursor-not-allowed'
             ]"
           >
             {{ canRefineRecipe(recipe) ? '开始炼制' : '材料不足' }}
@@ -125,32 +123,32 @@
     </div>
     
     <!-- 炼丹统计 -->
-    <div class="bg-gray-800 border border-gray-600 rounded p-4">
-      <h3 class="text-lg font-bold text-green-400 mb-3">炼丹统计</h3>
+    <div class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">炼丹统计</h3>
       
-      <div class="grid grid-cols-2 gap-4 text-sm">
+      <div class="grid grid-cols-2 gap-4">
         <div class="text-center">
-          <div class="text-2xl font-bold text-white">{{ alchemyStore.refinementStats.totalAttempts }}</div>
-          <div class="text-gray-400">总尝试</div>
+          <div class="text-2xl font-bold pixel-text-value">{{ alchemyStore.refinementStats.totalAttempts }}</div>
+          <div class="pixel-text-label">总尝试</div>
         </div>
         
         <div class="text-center">
-          <div class="text-2xl font-bold text-green-400">{{ alchemyStore.refinementStats.successfulRefinements }}</div>
-          <div class="text-gray-400">成功次数</div>
+          <div class="text-2xl font-bold pixel-text-value">{{ alchemyStore.refinementStats.successfulRefinements }}</div>
+          <div class="pixel-text-label">成功次数</div>
         </div>
         
         <div class="text-center">
-          <div class="text-2xl font-bold text-yellow-400">{{ alchemyStore.refinementStats.perfectPills }}</div>
-          <div class="text-gray-400">完美丹药</div>
+          <div class="text-2xl font-bold pixel-text-value">{{ alchemyStore.refinementStats.perfectPills }}</div>
+          <div class="pixel-text-label">完美丹药</div>
         </div>
         
         <div class="text-center">
-          <div class="text-2xl font-bold text-red-400">{{ alchemyStore.refinementStats.failedAttempts }}</div>
-          <div class="text-gray-400">失败次数</div>
+          <div class="text-2xl font-bold pixel-text-value">{{ alchemyStore.refinementStats.failedAttempts }}</div>
+          <div class="pixel-text-label">失败次数</div>
         </div>
       </div>
       
-      <div v-if="alchemyStore.refinementStats.totalAttempts > 0" class="mt-3 text-center text-sm text-gray-400">
+      <div v-if="alchemyStore.refinementStats.totalAttempts > 0" class="mt-3 text-center pixel-text-label">
         成功率：{{ Math.floor((alchemyStore.refinementStats.successfulRefinements / alchemyStore.refinementStats.totalAttempts) * 100) }}%
       </div>
     </div>

@@ -173,5 +173,11 @@ export const useCombatStore = defineStore('combat', () => {
         }
     }
 
-    return { isCombatActive, currentEnemy, combatActions, startCombat, handleAction }
+    // 重置到初始状态
+    function $reset() {
+        isCombatActive.value = false
+        currentEnemy.value = null
+    }
+
+    return { isCombatActive, currentEnemy, combatActions, startCombat, handleAction, $reset }
 })

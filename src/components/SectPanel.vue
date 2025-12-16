@@ -1,56 +1,56 @@
 <template>
   <div class="space-y-4">
     <!-- 当前门派信息 -->
-    <div v-if="sectStore.currentSect" class="bg-gray-800 border border-gray-600 rounded p-4">
-      <h3 class="text-lg font-bold text-blue-400 mb-3">当前门派</h3>
+    <div v-if="sectStore.currentSect" class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">当前门派</h3>
       
       <div class="space-y-2">
         <div class="flex justify-between">
-          <span class="text-gray-300">门派：</span>
-          <span class="text-white font-medium">{{ sectStore.currentSectInfo?.name }}</span>
+          <span class="pixel-text-subtitle">门派：</span>
+          <span class="pixel-text-value">{{ sectStore.currentSectInfo?.name }}</span>
         </div>
         
         <div class="flex justify-between">
-          <span class="text-gray-300">地位：</span>
-          <span class="text-yellow-400">{{ sectStore.currentSectRank?.rank || '外门弟子' }}</span>
+          <span class="pixel-text-subtitle">地位：</span>
+          <span class="pixel-text-value">{{ sectStore.currentSectRank?.rank || '外门弟子' }}</span>
         </div>
         
         <div class="flex justify-between">
-          <span class="text-gray-300">声望：</span>
-          <span class="text-green-400">{{ sectStore.currentSectReputation }}</span>
+          <span class="pixel-text-subtitle">声望：</span>
+          <span class="pixel-text-value">{{ sectStore.currentSectReputation }}</span>
         </div>
         
-        <div class="text-sm text-gray-400 mt-2">
+        <div class="pixel-text-subtitle mt-2">
           {{ sectStore.currentSectInfo?.description }}
         </div>
       </div>
       
       <!-- 门派特权 -->
       <div v-if="sectStore.currentSectRank?.benefits" class="mt-3">
-        <div class="text-sm text-gray-300 mb-1">当前特权：</div>
-        <div class="text-xs text-blue-300">
+        <div class="pixel-text-subtitle mb-1">当前特权：</div>
+        <div class="pixel-text-label">
           {{ sectStore.currentSectRank.benefits.join('、') }}
         </div>
       </div>
     </div>
     
     <!-- 可学习技能 -->
-    <div v-if="sectStore.availableSectSkills.length > 0" class="bg-gray-800 border border-gray-600 rounded p-4">
-      <h3 class="text-lg font-bold text-purple-400 mb-3">门派武学</h3>
+    <div v-if="sectStore.availableSectSkills.length > 0" class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">门派武学</h3>
       
       <div class="space-y-2">
         <div
           v-for="skill in sectStore.availableSectSkills"
           :key="skill.id"
-          class="flex items-center justify-between p-2 bg-gray-700 rounded"
+          class="flex items-center justify-between p-2 pixel-container"
         >
           <div class="flex-1">
-            <div class="text-white font-medium">{{ skill.name }}</div>
-            <div class="text-sm text-gray-400">{{ skill.description }}</div>
+            <div class="pixel-text-value">{{ skill.name }}</div>
+            <div class="pixel-text-subtitle">{{ skill.description }}</div>
           </div>
           <button
             @click="learnSkill(skill.id)"
-            class="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white text-sm rounded transition-colors"
+            class="pixel-button"
           >
             学习
           </button>
@@ -59,19 +59,19 @@
     </div>
     
     <!-- 门派任务 -->
-    <div v-if="sectStore.availableSectTasks.length > 0" class="bg-gray-800 border border-gray-600 rounded p-4">
-      <h3 class="text-lg font-bold text-green-400 mb-3">门派任务</h3>
+    <div v-if="sectStore.availableSectTasks.length > 0" class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">门派任务</h3>
       
       <div class="space-y-2">
         <div
           v-for="task in sectStore.availableSectTasks"
           :key="task.id"
-          class="flex items-center justify-between p-2 bg-gray-700 rounded"
+          class="flex items-center justify-between p-2 pixel-container"
         >
           <div class="flex-1">
-            <div class="text-white font-medium">{{ task.name }}</div>
-            <div class="text-sm text-gray-400">{{ task.description }}</div>
-            <div class="text-xs text-green-300 mt-1">
+            <div class="pixel-text-value">{{ task.name }}</div>
+            <div class="pixel-text-subtitle">{{ task.description }}</div>
+            <div class="pixel-text-label mt-1">
               奖励：经验 {{ task.rewards.xp }}
               <span v-if="task.rewards.reputation">
                 、声望 {{ Object.values(task.rewards.reputation)[0] }}
@@ -81,7 +81,7 @@
           </div>
           <button
             @click="completeTask(task.id)"
-            class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-sm rounded transition-colors"
+            class="pixel-button"
           >
             完成
           </button>
@@ -90,28 +90,28 @@
     </div>
     
     <!-- 可加入门派 -->
-    <div v-if="!sectStore.currentSect" class="bg-gray-800 border border-gray-600 rounded p-4">
-      <h3 class="text-lg font-bold text-yellow-400 mb-3">可加入门派</h3>
+    <div v-if="!sectStore.currentSect" class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">可加入门派</h3>
       
       <div class="space-y-3">
         <div
           v-for="sectId in sectStore.availableSects"
           :key="sectId"
-          class="border border-gray-600 rounded p-3"
+          class="pixel-container p-2"
         >
           <div class="flex items-center justify-between mb-2">
-            <h4 class="text-white font-medium">{{ getSectData(sectId)?.name }}</h4>
-            <span :class="getSectTypeColor(getSectData(sectId)?.type)" class="text-sm px-2 py-1 rounded">
+            <h4 class="pixel-text-value">{{ getSectData(sectId)?.name }}</h4>
+            <span class="pixel-text-label px-2 py-1 border border-white">
               {{ getSectTypeText(getSectData(sectId)?.type) }}
             </span>
           </div>
           
-          <div class="text-sm text-gray-400 mb-3">
+          <div class="pixel-text-subtitle mb-3">
             {{ getSectData(sectId)?.description }}
           </div>
           
           <div class="flex items-center justify-between">
-            <div class="text-xs text-gray-500">
+            <div class="pixel-text-label">
               要求：{{ formatJoinRequirements(getSectData(sectId)?.joinRequirements) }}
             </div>
             
@@ -119,17 +119,15 @@
               @click="joinSect(sectId)"
               :disabled="!sectStore.canJoinSect(sectId).canJoin"
               :class="[
-                'px-3 py-1 text-sm rounded transition-colors',
-                sectStore.canJoinSect(sectId).canJoin
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                  : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                'pixel-button',
+                !sectStore.canJoinSect(sectId).canJoin && 'opacity-50 cursor-not-allowed'
               ]"
             >
               {{ sectStore.canJoinSect(sectId).canJoin ? '加入' : '条件不足' }}
             </button>
           </div>
           
-          <div v-if="!sectStore.canJoinSect(sectId).canJoin" class="text-xs text-red-400 mt-1">
+          <div v-if="!sectStore.canJoinSect(sectId).canJoin" class="pixel-text-label mt-1">
             {{ sectStore.canJoinSect(sectId).reason }}
           </div>
         </div>
@@ -140,11 +138,11 @@
     <div v-if="sectStore.currentSect" class="text-center">
       <button
         @click="leaveSect"
-        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded transition-colors"
+        class="pixel-button"
       >
         离开门派
       </button>
-      <div class="text-xs text-gray-500 mt-1">
+      <div class="pixel-text-label mt-1">
         警告：离开门派将失去所有声望和特权
       </div>
     </div>

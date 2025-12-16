@@ -429,6 +429,15 @@ export const useSectStore = defineStore('sect', () => {
         gainReputation,
         learnSectSkill,
         completeSectTask,
-        getSectRelation
+        getSectRelation,
+        
+        // 重置方法
+        $reset: () => {
+            currentSect.value = null
+            sectReputations.value = {}
+            availableSects.value = ['qingshan_sect', 'tianmo_sect', 'wuwei_sect']
+            completedTasks.value = []
+            taskCooldowns.value = {}
+        }
     }
 })

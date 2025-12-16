@@ -347,6 +347,15 @@ export const useAdventureStore = defineStore('adventure', () => {
         tryTriggerAdventure,
         makeChoice,
         cancelCurrentEvent,
-        calculateTriggerChance
+        calculateTriggerChance,
+        
+        // 重置方法
+        $reset: () => {
+            eventHistory.value = []
+            currentEvent.value = null
+            eventCooldowns.value = {}
+            lastEventTime.value = 0
+            locationEventHistory.value = {}
+        }
     }
 })

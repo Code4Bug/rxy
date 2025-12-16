@@ -15,7 +15,7 @@ export const usePlayerStore = defineStore('player', () => {
         agility: 5,
         maxXp: 100,
         level: 1,
-        cultivation: '炼体境一重'
+        cultivation: '炼体境1重'
     })
 
     // Current Status (Fluctuating)
@@ -246,11 +246,76 @@ export const usePlayerStore = defineStore('player', () => {
         }
     }
 
+    // 重置到初始状态
+    function $reset() {
+        name.value = '任逍遥'
+        title.value = '无名小卒'
+        
+        baseStats.value = {
+            maxHp: 100,
+            maxMp: 50,
+            attack: 10,
+            defense: 5,
+            agility: 5,
+            maxXp: 100,
+            level: 1,
+            cultivation: '炼体境1重'
+        }
+        
+        status.value = {
+            hp: 100,
+            mp: 50,
+            xp: 0
+        }
+        
+        equipment.value = {
+            weapon: null,
+            armor: null,
+            accessory: null
+        }
+        
+        inventory.value = []
+        skills.value = []
+        location.value = 'cave_start'
+        
+        sectData.value = {
+            currentSect: null,
+            sectReputations: {},
+            sectRank: null
+        }
+        
+        alchemyData.value = {
+            level: 1,
+            exp: 0,
+            knownRecipes: ['qi_gathering_pill'],
+            successCount: 0
+        }
+        
+        questData.value = {
+            activeQuests: [],
+            completedQuests: [],
+            questProgress: {}
+        }
+        
+        adventureData.value = {
+            eventHistory: [],
+            lastEventTime: 0,
+            eventCooldowns: {}
+        }
+        
+        extendedStats.value = {
+            fortune: 5,
+            intelligence: 5,
+            alignment: 'neutral',
+            gold: 100
+        }
+    }
+
     return {
         name, title, stats, baseStats, status, equipment, inventory, skills, location,
         sectData, alchemyData, questData, adventureData, extendedStats,
         updateStat, addItem, removeItem, equipItem, unequipItem,
         learnSkill, takeDamage, heal, recover, consumeMp, gainExp,
-        updateExtendedStat, addExtendedStat
+        updateExtendedStat, addExtendedStat, $reset
     }
 })

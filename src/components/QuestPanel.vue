@@ -1,41 +1,41 @@
 <template>
   <div class="space-y-4">
     <!-- 主线任务进度 -->
-    <div class="bg-gray-800 border border-yellow-600 rounded p-4">
-      <h3 class="text-lg font-bold text-yellow-400 mb-3">主线进度</h3>
+    <div class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">主线进度</h3>
       
       <div v-if="questStore.mainQuestProgress.current" class="space-y-2">
-        <div class="text-white font-medium">
+        <div class="pixel-text-value">
           {{ questStore.mainQuestProgress.current.name }}
         </div>
-        <div class="text-sm text-gray-400">
+        <div class="pixel-text-subtitle">
           {{ questStore.mainQuestProgress.current.description }}
         </div>
-        <div class="w-full bg-gray-700 rounded-full h-2">
+        <div class="w-full bg-black border-2 border-white h-4">
           <div 
-            class="bg-yellow-600 h-2 rounded-full transition-all duration-300"
+            class="bg-white h-full"
             :style="{ width: `${calculateProgress(questStore.mainQuestProgress.current)}%` }"
           ></div>
         </div>
-        <div class="text-xs text-gray-400">
+        <div class="pixel-text-label">
           进度：{{ calculateProgress(questStore.mainQuestProgress.current) }}%
         </div>
       </div>
       
-      <div v-else class="text-gray-400 text-center py-2">
+      <div v-else class="pixel-text-label text-center py-2">
         暂无进行中的主线任务
       </div>
       
-      <div class="text-xs text-gray-500 mt-2">
+      <div class="pixel-text-label mt-2">
         已完成主线：{{ questStore.mainQuestProgress.completed }} / {{ questStore.mainQuestProgress.total }}
       </div>
     </div>
     
     <!-- 活跃任务列表 -->
-    <div class="bg-gray-800 border border-gray-600 rounded p-4">
-      <h3 class="text-lg font-bold text-blue-400 mb-3">进行中的任务</h3>
+    <div class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">进行中的任务</h3>
       
-      <div v-if="questStore.activeQuests.length === 0" class="text-gray-400 text-center py-4">
+      <div v-if="questStore.activeQuests.length === 0" class="pixel-text-label text-center py-4">
         暂无进行中的任务
       </div>
       
@@ -43,25 +43,25 @@
         <div
           v-for="quest in questStore.activeQuests"
           :key="quest.id"
-          class="border border-gray-600 rounded p-3"
+          class="pixel-container p-2"
         >
           <div class="flex items-center justify-between mb-2">
-            <h4 class="text-white font-medium">{{ quest.name }}</h4>
+            <h4 class="pixel-text-value">{{ quest.name }}</h4>
             <div class="flex items-center space-x-2">
-              <span :class="getQuestTypeColor(quest.type)" class="text-xs px-2 py-1 rounded">
+              <span class="pixel-text-label px-2 py-1 border border-white">
                 {{ getQuestTypeName(quest.type) }}
               </span>
               <button
                 v-if="quest.type !== 'main'"
                 @click="abandonQuest(quest.id)"
-                class="text-red-400 hover:text-red-300 text-xs"
+                class="pixel-button text-xs"
               >
                 放弃
               </button>
             </div>
           </div>
           
-          <div class="text-sm text-gray-400 mb-3">
+          <div class="pixel-text-subtitle mb-3">
             {{ quest.description }}
           </div>
           
@@ -70,13 +70,13 @@
             <div
               v-for="(objective, index) in quest.objectives"
               :key="index"
-              class="text-sm"
+              class="pixel-text-subtitle"
             >
               <div class="flex items-center justify-between">
-                <span :class="isObjectiveCompleted(objective) ? 'text-green-400 line-through' : 'text-gray-300'">
+                <span :class="isObjectiveCompleted(objective) ? 'line-through' : ''">
                   {{ objective.description }}
                 </span>
-                <span :class="isObjectiveCompleted(objective) ? 'text-green-400' : 'text-yellow-400'">
+                <span class="pixel-text-value">
                   {{ formatObjectiveProgress(objective) }}
                 </span>
               </div>
@@ -84,7 +84,7 @@
           </div>
           
           <!-- 任务奖励 -->
-          <div v-if="quest.rewards" class="mt-3 text-xs text-green-300">
+          <div v-if="quest.rewards" class="mt-3 pixel-text-label">
             奖励：{{ formatRewards(quest.rewards) }}
           </div>
         </div>
@@ -92,10 +92,10 @@
     </div>
     
     <!-- 可接受任务 -->
-    <div class="bg-gray-800 border border-gray-600 rounded p-4">
-      <h3 class="text-lg font-bold text-green-400 mb-3">可接受任务</h3>
+    <div class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">可接受任务</h3>
       
-      <div v-if="questStore.availableQuests.length === 0" class="text-gray-400 text-center py-4">
+      <div v-if="questStore.availableQuests.length === 0" class="pixel-text-label text-center py-4">
         暂无可接受的任务
       </div>
       
@@ -103,27 +103,27 @@
         <div
           v-for="questId in questStore.availableQuests"
           :key="questId"
-          class="border border-gray-600 rounded p-3"
+          class="pixel-container p-2"
         >
           <div class="flex items-center justify-between mb-2">
-            <h4 class="text-white font-medium">{{ getQuestData(questId)?.name }}</h4>
-            <span :class="getQuestTypeColor(getQuestData(questId)?.type)" class="text-xs px-2 py-1 rounded">
+            <h4 class="pixel-text-value">{{ getQuestData(questId)?.name }}</h4>
+            <span class="pixel-text-label px-2 py-1 border border-white">
               {{ getQuestTypeName(getQuestData(questId)?.type) }}
             </span>
           </div>
           
-          <div class="text-sm text-gray-400 mb-3">
+          <div class="pixel-text-subtitle mb-3">
             {{ getQuestData(questId)?.description }}
           </div>
           
           <!-- 任务目标预览 -->
           <div class="mb-3">
-            <div class="text-xs text-gray-500 mb-1">任务目标：</div>
+            <div class="pixel-text-label mb-1">任务目标：</div>
             <div class="space-y-1">
               <div
                 v-for="(objective, index) in getQuestData(questId)?.objectives"
                 :key="index"
-                class="text-xs text-gray-400"
+                class="pixel-text-label"
               >
                 • {{ objective.description }}
               </div>
@@ -131,7 +131,7 @@
           </div>
           
           <!-- 任务奖励预览 -->
-          <div v-if="getQuestData(questId)?.rewards" class="mb-3 text-xs text-green-300">
+          <div v-if="getQuestData(questId)?.rewards" class="mb-3 pixel-text-label">
             奖励：{{ formatRewards(getQuestData(questId).rewards) }}
           </div>
           
@@ -139,16 +139,14 @@
             @click="acceptQuest(questId)"
             :disabled="!questStore.canAcceptQuest(questId).canAccept"
             :class="[
-              'w-full px-3 py-2 text-sm rounded transition-colors',
-              questStore.canAcceptQuest(questId).canAccept
-                ? 'bg-green-600 hover:bg-green-700 text-white'
-                : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+              'w-full pixel-button',
+              !questStore.canAcceptQuest(questId).canAccept && 'opacity-50 cursor-not-allowed'
             ]"
           >
             {{ questStore.canAcceptQuest(questId).canAccept ? '接受任务' : '条件不足' }}
           </button>
           
-          <div v-if="!questStore.canAcceptQuest(questId).canAccept" class="text-xs text-red-400 mt-1">
+          <div v-if="!questStore.canAcceptQuest(questId).canAccept" class="pixel-text-label mt-1">
             {{ questStore.canAcceptQuest(questId).reason }}
           </div>
         </div>
@@ -156,28 +154,28 @@
     </div>
     
     <!-- 已完成任务 -->
-    <div v-if="questStore.completedQuests.length > 0" class="bg-gray-800 border border-gray-600 rounded p-4">
-      <h3 class="text-lg font-bold text-gray-400 mb-3">已完成任务</h3>
+    <div v-if="questStore.completedQuests.length > 0" class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">已完成任务</h3>
       
       <div class="space-y-2 max-h-40 overflow-y-auto">
         <div
           v-for="quest in questStore.completedQuests.slice(-10)"
           :key="quest.id + quest.completedAt"
-          class="flex items-center justify-between p-2 bg-gray-700 rounded"
+          class="flex items-center justify-between p-2 pixel-container"
         >
           <div class="flex-1">
-            <div class="text-sm text-gray-300">{{ quest.name }}</div>
-            <div class="text-xs text-gray-500">
+            <div class="pixel-text-subtitle">{{ quest.name }}</div>
+            <div class="pixel-text-label">
               {{ formatCompletedTime(quest.completedAt) }}
             </div>
           </div>
-          <span :class="getQuestTypeColor(quest.type)" class="text-xs px-2 py-1 rounded">
+          <span class="pixel-text-label px-2 py-1 border border-white">
             {{ getQuestTypeName(quest.type) }}
           </span>
         </div>
       </div>
       
-      <div class="text-xs text-gray-500 mt-2 text-center">
+      <div class="pixel-text-label mt-2 text-center">
         总计完成：{{ questStore.completedQuests.length }} 个任务
       </div>
     </div>

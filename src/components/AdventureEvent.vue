@@ -1,21 +1,23 @@
 <template>
-  <div v-if="adventureStore.currentEvent" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-gray-800 border border-gray-600 rounded-lg p-6 max-w-2xl w-full mx-4 max-h-96 overflow-y-auto">
+  <div v-if="adventureStore.currentEvent" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+    <div class="pixel-container p-6 max-w-2xl w-full mx-4 max-h-96 overflow-y-auto">
       <!-- 事件标题 -->
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-xl font-bold text-yellow-400">
+        <h3 class="pixel-text-title">
           {{ adventureStore.currentEvent.name }}
         </h3>
         <button 
           @click="cancelEvent"
-          class="text-gray-400 hover:text-white text-xl"
+          class="pixel-button text-xl px-2 py-0"
         >
           ×
         </button>
       </div>
       
+      <div class="pixel-divider mb-4"></div>
+      
       <!-- 事件描述 -->
-      <div class="text-gray-300 mb-6 leading-relaxed">
+      <div class="pixel-text-subtitle mb-6 leading-relaxed">
         {{ adventureStore.currentEvent.description }}
       </div>
       
@@ -27,21 +29,19 @@
           @click="makeChoice(choice.id)"
           :disabled="!canMakeChoice(choice)"
           :class="[
-            'w-full text-left p-3 rounded border transition-colors',
-            canMakeChoice(choice)
-              ? 'border-gray-600 bg-gray-700 hover:bg-gray-600 text-white'
-              : 'border-gray-700 bg-gray-800 text-gray-500 cursor-not-allowed'
+            'w-full text-left pixel-list-item p-3',
+            !canMakeChoice(choice) && 'opacity-50 cursor-not-allowed'
           ]"
         >
-          <div class="font-medium">{{ choice.text }}</div>
-          <div v-if="choice.requirements" class="text-sm text-gray-400 mt-1">
+          <div class="pixel-text-value">{{ choice.text }}</div>
+          <div v-if="choice.requirements" class="pixel-text-label mt-1">
             需要：{{ formatRequirements(choice.requirements) }}
           </div>
         </button>
       </div>
       
       <!-- 底部提示 -->
-      <div class="mt-4 text-sm text-gray-500 text-center">
+      <div class="mt-4 pixel-text-label text-center">
         选择你的行动，每个选择都可能带来不同的后果...
       </div>
     </div>
