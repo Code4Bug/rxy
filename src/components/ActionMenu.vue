@@ -27,7 +27,7 @@ const interactActions = computed(() => props.actions.filter(a => a.type !== 'mov
     <div v-if="busyState" class="flex-1 flex flex-col items-center justify-center pixel-container m-4">
       <div class="pixel-text-title mb-4">{{ busyState.label }}...</div>
       <div class="w-2/3 h-6 bg-black border-2 border-white relative">
-        <div class="absolute top-0 left-0 bottom-0 bg-white" 
+        <div class="absolute top-0 left-0 bottom-0 bg-white progress-bar" 
              :style="{ animation: `progress ${busyState.duration}ms linear forwards` }"></div>
       </div>
     </div>

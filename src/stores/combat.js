@@ -55,22 +55,25 @@ export const useCombatStore = defineStore('combat', () => {
     }
 
     function endCombat(won) {
+        // 保存当前敌人信息，因为后面会清空
+        const enemy = currentEnemy.value
+        
         isCombatActive.value = false
-        if (won) {
-            gameLog.addLog(`战斗胜利！获得了 ${currentEnemy.value.exp} 点修为。`, 'gain')
-            player.gainExp(currentEnemy.value.exp)
+        if (won && enemy) {
+            gameLog.addLog(`战斗胜利！获得了 ${enemy.exp} 点修为。`, 'gain')
+            player.gainExp(enemy.exp)
 
             // 更新任务进度 - 战斗胜利
             // 需要动态导入questStore以避免循环依赖
             import('./quest').then(module => {
                 const questStore = module.useQuestStore()
                 questStore.updateAllQuestProgress('win_battles')
-                questStore.updateAllQuestProgress('defeat_enemies', currentEnemy.value.id)
+                questStore.updateAllQuestProgress('defeat_enemies', enemy.id)
             }).catch(console.error)
 
             // Drop loot
-            if (currentEnemy.value.drops) {
-                currentEnemy.value.drops.forEach(drop => {
+            if (enemy.drops) {
+                enemy.drops.forEach(drop => {
                     if (Math.random() < drop.chance) {
                         player.addItem(drop.itemId, 1)
                         const itemName = itemData[drop.itemId]?.name || drop.itemId
