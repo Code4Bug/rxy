@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Scrollbar for Game Log */
+::-webkit-scrollbar {
+  width: 12px;
+  background: #000;
+  border-left: 2px solid #333;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: inset -2px -2px 0px #aaa;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ddd;
+}
+
+body {
+  @apply bg-black text-white;
+  /* VT323 for numbers/eng, SimSun/Monospace for Chinese pixel feel */
+  font-family: 'VT323', 'SimSun', 'Courier New', monospace;
+  overflow: hidden;
+  image-rendering: pixelated;
+}
+
+/* Pixel Art Utilities */
+.pixel-border {
+  box-shadow:
+    -2px 0 0 0 white,
+    2px 0 0 0 white,
+    0 -2px 0 0 white,
+    0 2px 0 0 white;
+  margin: 2px;
+}
+
+.pixel-box {
+  border: 2px solid white;
+}
+
+/* Override Tailwind Colors for Monochrome */
+.text-red-400,
+.text-blue-400,
+.text-yellow-400,
+.text-purple-400,
+.text-yellow-500,
+.text-gray-300,
+.text-gray-400,
+.text-gray-500,
+.text-gray-600,
+.text-blue-300,
+.text-yellow-200 {
+  @apply text-white;
+}
+
+.bg-gray-700,
+.bg-gray-800,
+.bg-gray-900 {
+  @apply bg-black;
+}
+
+.hover\:bg-gray-600:hover {
+  @apply bg-white text-black !important;
+}
+
+/* Invert selection */
+::selection {
+  background: white;
+  color: black;
+}
