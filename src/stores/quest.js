@@ -351,15 +351,18 @@ export const useQuestStore = defineStore('quest', () => {
     
     // 计算任务完成度
     function calculateQuestProgress(quest) {
-        if (!quest.objectives || quest.objectives.length === 0) return 100
+        if (!quest || !quest.objectives || quest.objectives.length === 0) return 100
         
         let totalProgress = 0
         quest.objectives.forEach(objective => {
             let objProgress = 0
-            if (Array.isArray(objective.current)) {
-                objProgress = Math.min(objective.current.length / objective.required, 1)
+            const current = objective.current || 0
+            const required = objective.required || 1
+            
+            if (Array.isArray(current)) {
+                objProgress = Math.min(current.length / required, 1)
             } else {
-                objProgress = Math.min(objective.current / objective.required, 1)
+                objProgress = Math.min(current / required, 1)
             }
             totalProgress += objProgress
         })
