@@ -1,38 +1,73 @@
-# .
+# 任逍遥 - 文字武侠修仙RPG
 
-This template should help get you started developing with Vue 3 in Vite.
+一款基于Vue 3开发的文字冒险武侠修仙游戏，采用极简主义设计理念，通过纯文字描述营造沉浸式体验。
 
-## Recommended IDE Setup
+## 🎮 游戏特色
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **文字驱动**: 完全基于文字描述的游戏体验，无图形界面
+- **武侠修仙**: 融合传统武侠与修仙元素的世界观
+- **渐进成长**: 通过战斗、修炼提升角色实力和境界
+- **随机奇遇**: Roguelike元素，随机事件增加可玩性
+- **门派系统**: 三大门派各具特色，不同发展路径
+- **炼丹系统**: 采集材料，炼制丹药辅助修炼
+- **任务系统**: 主线剧情引导，支线任务丰富体验
 
-## Recommended Browser Setup
+## 🛠️ 技术栈
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- **前端框架**: Vue 3 (Composition API)
+- **状态管理**: Pinia
+- **样式框架**: Tailwind CSS
+- **构建工具**: Vite
+- **包管理**: npm
 
-## Customize configuration
+## 🚀 快速开始
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### 环境要求
+- Node.js >= 18.0.0
 
-## Project Setup
-
-```sh
+### 安装依赖
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
+### 开发运行
+```bash
 npm run dev
 ```
 
-### Compile and Minify for Production
-
-```sh
+### 生产构建
+```bash
 npm run build
 ```
+
+### 预览构建结果
+```bash
+npm run preview
+```
+
+## 📁 项目结构
+
+```
+src/
+├── components/          # Vue组件
+├── stores/              # Pinia状态管理
+├── game/                # 游戏数据配置
+├── assets/              # 静态资源
+├── App.vue              # 根组件
+└── main.js              # 应用入口
+```
+
+## 🎯 游戏系统
+
+- **属性系统**: 气血、内力、攻击、防御、身法等基础属性
+- **修炼境界**: 从炼体境到天人境的修炼体系
+- **武功系统**: 外功、内功、轻功三大类别
+- **装备系统**: 武器、衣服、饰品等装备强化
+- **奇遇系统**: 随机事件，多样选择分支
+- **门派系统**: 青山派、玄阴宗、天机阁三大门派
+- **炼丹系统**: 材料采集，丹药炼制
+- **任务系统**: 主线、支线、日常、成就四类任务
+
+## 📄 开源协议
+
+MIT License

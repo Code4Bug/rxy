@@ -30,19 +30,19 @@ function formatTime(timestamp) {
 </script>
 
 <template>
-  <div class="flex-1 overflow-y-auto p-4 space-y-2 scroll-smooth" ref="logContainer">
+  <div class="flex-1 overflow-y-auto p-4 space-y-2 scroll-smooth pixel-panel border-0" ref="logContainer">
     <div 
       v-for="(log, index) in logStore.logs" 
       :key="index"
-      class="text-sm border-l-2 pl-2 py-1 leading-relaxed"
+      class="border-l-4 pl-3 py-1 leading-relaxed"
       :class="{
-        'border-white text-white': log.type === 'info',
-        'border-gray-500 text-gray-400': log.type === 'combat',
-        'border-white font-bold': log.type === 'gain',
-        'border-white bg-white text-black': log.type === 'danger'
+        'border-white pixel-text-subtitle': log.type === 'info',
+        'border-white pixel-text-label': log.type === 'combat',
+        'border-white pixel-text-value': log.type === 'gain',
+        'border-white bg-white text-black pixel-text-value px-2': log.type === 'danger'
       }"
     >
-      <span class="mr-2 opacity-50">[{{ formatTime(log.timestamp) }}]</span>
+      <span class="mr-2 pixel-text-label opacity-75">[{{ formatTime(log.timestamp) }}]</span>
       <span class="tracking-wide">{{ log.message }}</span>
     </div>
   </div>

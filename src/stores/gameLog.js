@@ -22,5 +22,10 @@ export const useGameLogStore = defineStore('gameLog', () => {
         logs.value = []
     }
 
-    return { logs, addLog, clearLogs }
+    // 重置到初始状态
+    function $reset() {
+        logs.value = []
+    }
+
+    return { logs, addLog, clearLogs, $reset }
 })

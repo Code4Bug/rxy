@@ -93,6 +93,14 @@ export const useWorldStore = defineStore('world', () => {
             gameLog.addLog(`你来到了【${mapData[targetId].name}】。`, 'info')
             gameLog.addLog(mapData[targetId].description, 'info')
 
+            // 记录访问过的位置
+            if (!player.adventureData.visitedLocations) {
+                player.adventureData.visitedLocations = []
+            }
+            if (!player.adventureData.visitedLocations.includes(targetId)) {
+                player.adventureData.visitedLocations.push(targetId)
+            }
+
             // 更新任务进度（访问位置）
             questStore.updateAllQuestProgress('visit_locations', targetId)
 
@@ -345,5 +353,15 @@ export const useWorldStore = defineStore('world', () => {
         }
     }
 
-    return { currentLocationId, currentLocation, availableActions, isBusy, currentActionState, moveTo, handleAction, useItem }
+    // 重置到初始状态
+    function $reset() {
+        currentLocationId.value = 'cave_start'
+        worldState.value = {
+            found_cave_book: false
+        }
+        currentActionState.value = null
+        nodeCooldowns.value = {}
+    }
+
+    return { currentLocationId, currentLocation, availableActions, isBusy, currentActionState, moveTo, handleAction, useItem, $reset }
 })

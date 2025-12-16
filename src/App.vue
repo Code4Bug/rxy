@@ -38,12 +38,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen w-screen bg-black text-white flex flex-col items-center relative overflow-hidden">
-    <!-- Overlay UI -->
-    <StatusPanel />
-
-    <!-- Main Content Area -->
-    <div class="flex-1 w-full max-w-4xl flex flex-col min-h-0 relative z-10 border-x-2 border-white">
+  <div class="h-screen w-screen bg-black text-white flex relative overflow-hidden">
+    <!-- Main Content Area - 左侧 -->
+    <div class="flex-1 flex flex-col min-h-0 border-r-2 border-white">
       
       <!-- Top: Game Log -->
       <MainDisplay />
@@ -55,9 +52,14 @@ onMounted(() => {
         @trigger="currentActionHandler"
       />
     </div>
+
+    <!-- Overlay UI - 右侧状态面板 -->
+    <div class="relative z-20">
+      <StatusPanel />
+    </div>
     
     <!-- Background Decoration: Scanlines -->
-    <div class="absolute inset-0 pointer-events-none opacity-10" style="background: repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 3px);"></div>
+    <div class="absolute inset-0 pointer-events-none opacity-10 z-0" style="background: repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 3px);"></div>
     
     <!-- 奇遇事件弹窗 -->
     <AdventureEvent />

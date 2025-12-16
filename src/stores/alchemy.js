@@ -401,6 +401,23 @@ export const useAlchemyStore = defineStore('alchemy', () => {
         cancelRefinement,
         getMaterialInfo,
         getRecipeDetails,
-        gainAlchemyExp
+        gainAlchemyExp,
+        
+        // 重置方法
+        $reset: () => {
+            alchemyLevel.value = 1
+            alchemyExp.value = 0
+            knownRecipes.value = ['qi_gathering_pill']
+            isRefining.value = false
+            currentRefinement.value = null
+            refinementStats.value = {
+                totalAttempts: 0,
+                successfulRefinements: 0,
+                perfectPills: 0,
+                failedAttempts: 0
+            }
+            successRateBonus.value = 0
+            qualityBonus.value = 0
+        }
     }
 })
