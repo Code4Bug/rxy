@@ -23,6 +23,13 @@ export const itemData = {
         rarity: 'common'
     },
     // Materials / Herbs
+    'wolf_tooth': {
+        id: 'wolf_tooth',
+        name: '狼牙',
+        type: 'material',
+        description: '野狼的尖牙，坚硬锋利，可用作炼器材料。',
+        rarity: 'common'
+    },
     'spirit_grass': {
         id: 'spirit_grass',
         name: '灵草',
