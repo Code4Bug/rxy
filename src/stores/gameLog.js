@@ -6,7 +6,7 @@ export const useGameLogStore = defineStore('gameLog', () => {
 
     function addLog(message, type = 'info') {
         logs.value.push({
-            id: Date.now() + Math.random(),
+            id: Date.now() + Math.floor(Math.random() * 1000),
             message,
             type, // 'info', 'combat', 'gain', 'danger', 'adventure', 'quest', 'loss', 'warning', 'error'
             timestamp: new Date()

@@ -50,7 +50,7 @@ export const useCombatStore = defineStore('combat', () => {
         currentEnemy.value = { ...enemyTemplate, hp: enemyTemplate.maxHp }
         isCombatActive.value = true
 
-        gameLog.addLog(`遭遇敌人：【${currentEnemy.value.name}】！`, 'danger')
+        gameLog.addLog(`遭遇敌人：【${currentEnemy.value.name}】！(等级: ${currentEnemy.value.level}, 血量: ${currentEnemy.value.hp}/${currentEnemy.value.maxHp})`, 'danger')
         gameLog.addLog(currentEnemy.value.description, 'info')
     }
 

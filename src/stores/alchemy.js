@@ -407,6 +407,7 @@ export const useAlchemyStore = defineStore('alchemy', () => {
         $reset: () => {
             alchemyLevel.value = 1
             alchemyExp.value = 0
+            alchemyExpToNext.value = 100
             knownRecipes.value = ['qi_gathering_pill']
             isRefining.value = false
             currentRefinement.value = null

@@ -23,16 +23,21 @@ const currentActionHandler = computed(() => {
 })
 
 onMounted(() => {
-  // 初始化任务系统
-  questStore.initializeQuests()
+  // 检查是否有存档，如果没有则初始化新游戏
+  const hasSave = localStorage.getItem('rxy_game_save')
   
-  logStore.addLog('你缓缓睁开双眼，发现自己身处一个陌生的山洞之中...', 'info')
-  logStore.addLog('脑海中一片混沌，唯有手中的古剑传来一丝冰凉。', 'info')
-  logStore.addLog(worldStore.currentLocation.description, 'info')
-  
-  // 自动接受初始任务
-  if (questStore.availableQuests.includes('first_cultivation')) {
-    questStore.acceptQuest('first_cultivation')
+  if (!hasSave) {
+    // 初始化任务系统
+    questStore.initializeQuests()
+    
+    logStore.addLog('你缓缓睁开双眼，发现自己身处一个陌生的山洞之中...', 'info')
+    logStore.addLog('脑海中一片混沌，唯有手中的古剑传来一丝冰凉。', 'info')
+    logStore.addLog(worldStore.currentLocation.description, 'info')
+    
+    // 自动接受初始任务
+    if (questStore.availableQuests.includes('first_cultivation')) {
+      questStore.acceptQuest('first_cultivation')
+    }
   }
 })
 </script>

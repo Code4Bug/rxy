@@ -28,6 +28,28 @@
       </div>
     </div>
     
+    <!-- 可达位置 -->
+    <div class="pixel-container p-3">
+      <h3 class="pixel-text-title mb-3">可前往</h3>
+      
+      <div v-if="!availableExits.length" class="pixel-text-label text-center py-2">
+        暂无可前往的位置
+      </div>
+      
+      <div v-else class="space-y-2">
+        <button
+          v-for="exit in availableExits"
+          :key="exit.id"
+          @click="worldStore.moveTo(exit.id)"
+          class="w-full pixel-button text-left"
+        >
+          <span class="mr-2">→</span>
+          {{ exit.name }}
+          <span class="pixel-text-label ml-2">({{ exit.region }})</span>
+        </button>
+      </div>
+    </div>
+    
     <!-- 区域地图 -->
     <div class="pixel-container p-3">
       <h3 class="pixel-text-title mb-3">区域地图</h3>
@@ -60,28 +82,6 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    
-    <!-- 可达位置 -->
-    <div class="pixel-container p-3">
-      <h3 class="pixel-text-title mb-3">可前往</h3>
-      
-      <div v-if="!availableExits.length" class="pixel-text-label text-center py-2">
-        暂无可前往的位置
-      </div>
-      
-      <div v-else class="space-y-2">
-        <button
-          v-for="exit in availableExits"
-          :key="exit.id"
-          @click="worldStore.moveTo(exit.id)"
-          class="w-full pixel-button text-left"
-        >
-          <span class="mr-2">→</span>
-          {{ exit.name }}
-          <span class="pixel-text-label ml-2">({{ exit.region }})</span>
-        </button>
       </div>
     </div>
     

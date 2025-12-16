@@ -1,6 +1,7 @@
 <script setup>
 import { usePlayerStore } from '../stores/player'
 import { useWorldStore } from '../stores/world'
+import { useCombatStore } from '../stores/combat'
 import { itemData } from '../game/items'
 import { skillData } from '../game/skills'
 import { computed, ref } from 'vue'
@@ -13,6 +14,7 @@ import InventoryPanel from './InventoryPanel.vue'
 
 const player = usePlayerStore()
 const worldStore = useWorldStore()
+const combatStore = useCombatStore()
 
 // 当前激活的标签页
 const activeTab = ref('status')
@@ -149,6 +151,25 @@ function handleUseItem(itemId) {
           </div>
           
           <div class="pixel-divider"></div>
+          
+          <!-- Enemy Info (during combat) -->
+          <div v-if="combatStore.isCombatActive && combatStore.currentEnemy" class="mb-4">
+            <h3 class="pixel-text-subtitle mb-2">ENEMY</h3>
+            <div class="space-y-1">
+              <div class="flex justify-between">
+                <span class="pixel-text-label">NAME</span>
+                <span class="pixel-text-value">{{ combatStore.currentEnemy.name }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="pixel-text-label">LEVEL</span>
+                <span class="pixel-text-value">{{ combatStore.currentEnemy.level }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="pixel-text-label">HP</span>
+                <span class="pixel-text-value">{{ combatStore.currentEnemy.hp }}/{{ combatStore.currentEnemy.maxHp }}</span>
+              </div>
+            </div>
+          </div>
           
           <div>
             <h3 class="pixel-text-subtitle mb-2">SKILLS</h3>

@@ -109,11 +109,19 @@ export const usePlayerStore = defineStore('player', () => {
 
     function heal(amount) {
         status.value.hp = Math.min(stats.value.maxHp, status.value.hp + amount)
+        // 确保HP不超过最大值
+        if (status.value.hp > stats.value.maxHp) {
+            status.value.hp = stats.value.maxHp
+        }
     }
 
     function recover(amount) {
         heal(amount)
         status.value.mp = Math.min(stats.value.maxMp, status.value.mp + amount)
+        // 确保MP不超过最大值
+        if (status.value.mp > stats.value.maxMp) {
+            status.value.mp = stats.value.maxMp
+        }
     }
 
     function consumeMp(amount) {

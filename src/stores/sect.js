@@ -435,8 +435,8 @@ export const useSectStore = defineStore('sect', () => {
         $reset: () => {
             currentSect.value = null
             sectReputations.value = {}
-            availableSects.value = ['qingshan_sect', 'tianmo_sect', 'wuwei_sect']
-            completedTasks.value = []
+            availableSects.value = Object.keys(sectData)
+            completedTasks.value = {}
             taskCooldowns.value = {}
         }
     }

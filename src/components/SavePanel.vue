@@ -254,6 +254,9 @@ function newGame() {
       gameLog.addLog('你缓缓睁开双眼，发现自己身处一个陌生的山洞之中...', 'info')
       gameLog.addLog('脑海中一片混沌，唯有手中的古剑传来一丝冰凉。', 'info')
       gameLog.addLog(world.currentLocation.description, 'info')
+      
+      // 初始化任务系统
+      quest.initializeQuests()
     } else {
       showMessage('创建新游戏失败', 'error')
     }

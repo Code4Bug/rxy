@@ -47,9 +47,32 @@ export class SaveManager {
         return false
       }
 
+      // 先重置所有store到初始状态
+      Object.values(stores).forEach(store => {
+        if (store && typeof store.$reset === 'function') {
+          store.$reset()
+        }
+      })
+
       // 恢复各个store的状态
       if (saveData.player) {
         stores.player.$patch(saveData.player)
+        
+        // 数据验证和修复
+        const player = stores.player
+        
+        // 确保HP和MP不超过最大值
+        if (player.status.hp > player.stats.maxHp) {
+          player.status.hp = player.stats.maxHp
+        }
+        if (player.status.mp > player.stats.maxMp) {
+          player.status.mp = player.stats.maxMp
+        }
+        
+        // 确保经验值不超过升级所需
+        if (player.status.xp >= player.baseStats.maxXp) {
+          player.status.xp = player.baseStats.maxXp - 1
+        }
       }
 
       if (saveData.world) {
@@ -61,7 +84,12 @@ export class SaveManager {
       }
 
       if (saveData.gameLog && saveData.gameLog.logs) {
-        stores.gameLog.logs = saveData.gameLog.logs
+        // 清理日志ID中的小数部分
+        const cleanedLogs = saveData.gameLog.logs.map(log => ({
+          ...log,
+          id: Math.floor(log.id) // 移除小数部分
+        }))
+        stores.gameLog.logs = cleanedLogs
       }
 
       if (saveData.quest) {
@@ -104,9 +132,9 @@ export class SaveManager {
         version: saveData.version,
         timestamp: saveData.timestamp,
         playerName: saveData.player?.name || '无名',
-        playerLevel: saveData.player?.stats?.level || 1,
-        cultivation: saveData.player?.stats?.cultivation || '凡人',
-        location: saveData.world?.currentLocationId || 'unknown'
+        playerLevel: saveData.player?.baseStats?.level || 1,
+        cultivation: saveData.player?.baseStats?.cultivation || '凡人',
+        location: saveData.player?.location || 'cave_start'
       }
     } catch (error) {
       console.error('获取存档信息失败:', error)
@@ -191,14 +219,11 @@ export class SaveManager {
       this.deleteSave()
       
       // 重置所有store到初始状态
-      stores.player.$reset()
-      stores.world.$reset()
-      stores.combat.$reset()
-      stores.gameLog.$reset()
-      stores.quest.$reset()
-      stores.alchemy.$reset()
-      stores.sect.$reset()
-      stores.adventure.$reset()
+      Object.values(stores).forEach(store => {
+        if (store && typeof store.$reset === 'function') {
+          store.$reset()
+        }
+      })
       
       console.log('新游戏已开始')
       return true

@@ -429,7 +429,7 @@ export const useQuestStore = defineStore('quest', () => {
         $reset: () => {
             activeQuests.value = []
             completedQuests.value = []
-            availableQuests.value = []
+            availableQuests.value = ['first_cultivation']
             dailyResetTime.value = 0
             questProgress.value = {}
         }
